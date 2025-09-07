@@ -1,0 +1,14 @@
+# Core framework
+langchain==0.2.14
+
+# Vector database
+chromadb==0.5.5
+
+# Embeddings
+sentence-transformers==2.2.2
+
+# PDF reader
+pypdf==4.2.0
+
+# (Optional but useful for debugging & utilities)
+tiktoken==0.7.0
