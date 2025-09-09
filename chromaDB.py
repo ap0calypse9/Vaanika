@@ -3,7 +3,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.docstore.document import Document
-from langchain_ollama import OllamaLLM   # <--- new import
+from langchain_ollama import OllamaLLM   
 
 # Load PDF
 reader = PdfReader("test.pdf")
@@ -25,15 +25,20 @@ vectordb = Chroma.from_documents(docs, embedding=embedder, persist_directory="./
 # Local LLM (phi via Ollama)
 llm = OllamaLLM(model="phi")
 
-# User query
-query = "What is this document about?"
+print(" Document loaded. You can now ask questions (type 'exit' to quit).")
 
-# Retrieve context from DB
-results = vectordb.similarity_search(query, k=3)
-context = "\n\n".join([r.page_content for r in results])
+while True:
+    query = input("\n Your question: ")
+    if query.lower() in ["exit", "quit", "q"]:
+        print("👋 Goodbye!")
+        break
 
-# Build prompt
-prompt = f"""Use the following document context to answer the question:
+    # Retrieve context
+    results = vectordb.similarity_search(query, k=3)
+    context = "\n\n".join([r.page_content for r in results])
+
+    # Build prompt
+    prompt = f"""Use the following document context to answer the question:
 
 Context:
 {context}
@@ -43,8 +48,8 @@ Question: {query}
 Answer clearly and concisely:
 """
 
-# Run through Ollama
-response = llm.invoke(prompt)
+    # Run through Ollama
+    response = llm.invoke(prompt)
 
-print("=== LLM Answer ===")
-print(response)
+    print("\n Answer:")
+    print(response)
