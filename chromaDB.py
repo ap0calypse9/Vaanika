@@ -38,15 +38,24 @@ while True:
     context = "\n\n".join([r.page_content for r in results])
 
     # Build prompt
-    prompt = f"""Use the following document context to answer the question:
+    prompt = f"""
+You are a helpful AI assistant for question-answering over documents. 
+Always follow these rules:
 
-Context:
+1. Only use the provided CONTEXT to answer.
+2. If the answer is not in the context, say: "I could not find this in the document."
+3. Be clear, concise, and factual.
+4. If possible, mention the source (page number or section) from the context.
+
+---
+CONTEXT:
 {context}
+---
+QUESTION: {query}
 
-Question: {query}
-
-Answer clearly and concisely:
+Final Answer:
 """
+
 
     # Run through Ollama
     response = llm.invoke(prompt)
