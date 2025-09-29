@@ -52,7 +52,10 @@ CONTEXT:
 {context}
 ---
 QUESTION: {query}
-
+Reasoning:
+1. Identify relevant parts of the context. 
+2. Compare pros and cons if multiple options exist. 
+3. Eliminate unsuitable choices step by step. 
 Final Answer:
 """
 
